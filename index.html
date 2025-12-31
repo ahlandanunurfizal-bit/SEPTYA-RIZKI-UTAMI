@@ -2,7 +2,9 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>UNTUK SEPTYA❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>UNTUK SEPTYA ❤️</title>
 
 <style>
 *{
@@ -13,12 +15,12 @@
 }
 
 body{
-    height:100vh;
+    min-height:100vh;
     background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
     display:flex;
     align-items:center;
     justify-content:center;
-    overflow:hidden;
+    overflow-x:hidden;
 }
 
 /* HATI */
@@ -26,6 +28,7 @@ body{
     position:absolute;
     color:pink;
     animation:float 6s linear infinite;
+    pointer-events:none;
 }
 @keyframes float{
     from{transform:translateY(100vh);opacity:1;}
@@ -34,8 +37,10 @@ body{
 
 /* CARD */
 .card{
-    width:450px;
-    padding:35px;
+    width:100%;
+    max-width:420px;
+    margin:16px;
+    padding:24px;
     border-radius:20px;
     text-align:center;
     color:white;
@@ -47,25 +52,29 @@ body{
 /* BUTTON */
 .buttons{
     position:relative;
-    height:130px;
+    height:120px;
     margin-top:20px;
 }
+
 button{
     border:none;
-    padding:12px 28px;
+    min-height:44px;
+    padding:12px 24px;
     border-radius:30px;
     font-size:16px;
     cursor:pointer;
 }
+
 #yes{
     position:absolute;
     left:50%;
-    top:48px;
+    top:50px;
     transform:translateX(-50%);
     background:linear-gradient(45deg,#ff4d6d,#ff758f);
     color:white;
     z-index:5;
 }
+
 #no{
     position:absolute;
     background:#444;
@@ -75,7 +84,7 @@ button{
 /* MEDIA BOX */
 .media-box{
     width:100%;
-    height:240px;
+    height:230px;
     margin-top:20px;
     border-radius:16px;
     overflow:hidden;
@@ -98,11 +107,12 @@ button{
     transition:transform 1s ease;
 }
 
-/* FRAME FOTO */
+/* FOTO */
 .photo-frame{
-    width:420px;
-    height:240px;
-    margin-right:10px;
+    width:90vw;
+    max-width:380px;
+    height:220px;
+    margin-right:12px;
     background:#fff;
     border-radius:18px;
     padding:12px 12px 32px;
@@ -111,15 +121,21 @@ button{
         0 10px 25px rgba(255,105,180,.35),
         0 0 0 4px #ffd6e8;
     opacity:0;
-    transform:scale(.85);
+    transform:scale(.9);
     transition:.8s;
 }
+.photo-frame.show{
+    opacity:1;
+    transform:scale(1);
+}
+
 .photo-frame img{
     width:100%;
     height:100%;
     object-fit:cover;
     border-radius:12px;
 }
+
 .sticker{
     position:absolute;
     top:-14px;
@@ -129,6 +145,7 @@ button{
     border-radius:50%;
     padding:6px;
 }
+
 .caption{
     position:absolute;
     bottom:6px;
@@ -138,12 +155,14 @@ button{
     color:#ff4d6d;
     font-weight:600;
 }
-.photo-frame.show{
-    opacity:1;
-    transform:scale(1);
-}
 
 #result{display:none;}
+
+/* HP kecil */
+@media (max-width:480px){
+    h1{font-size:22px;}
+    p{font-size:14px;}
+}
 </style>
 </head>
 
@@ -159,7 +178,7 @@ button{
 
     <div class="buttons">
         <button id="yes" onclick="showResult()">IYA</button>
-        <button id="no" onmouseover="moveNo()">TIDAK</button>
+        <button id="no" onmouseover="moveNo()" ontouchstart="moveNo()">TIDAK</button>
     </div>
 </div>
 
@@ -168,52 +187,39 @@ button{
     <p>Terima kasih sudah memilih aku ❤️</p>
 
     <div class="media-box">
-        <!-- VIDEO AWAL -->
+
         <video id="loveVideo" autoplay muted playsinline>
             <source src="/assets/animasi3.mp4" type="video/mp4">
         </video>
 
-        <!-- SLIDER FOTO -->
         <div class="slider-track" id="slider" style="display:none;">
             <div class="photo-frame"><span class="sticker">💖</span><img src="/assets/foto1.jpg"><div class="caption">Only you 🤍</div></div>
             <div class="photo-frame"><span class="sticker">🌸</span><img src="/assets/foto2.jpg"><div class="caption">You’re my safe place 🫶</div></div>
             <div class="photo-frame"><span class="sticker">✨</span><img src="/assets/foto3.jpg"><div class="caption">Always you 💖</div></div>
             <div class="photo-frame"><span class="sticker">😍</span><img src="/assets/foto4.jpg"><div class="caption">My happiness 💘</div></div>
             <div class="photo-frame"><span class="sticker">🎀</span><img src="/assets/foto5.jpg"><div class="caption">Feels right 🥰</div></div>
-            <div class="photo-frame"><span class="sticker">💞</span><img src="/assets/foto6.jpg"><div class="caption">Everything 💞</div></div>
-            <div class="photo-frame"><span class="sticker">🌈</span><img src="/assets/foto7.jpg"><div class="caption">Lucky 🍀</div></div>
         </div>
 
-        <!-- VIDEO ENDING (BARU) -->
         <video id="endVideo" muted playsinline style="display:none;">
             <source src="/assets/animasi2.mp4" type="video/mp4">
         </video>
+
     </div>
 </div>
 
 <script>
 function moveNo(){
     const no=document.getElementById("no");
-    const yes=document.getElementById("yes");
     const area=document.querySelector(".buttons");
 
-    let x,y;
-    do{
-        x=Math.random()*(area.offsetWidth-no.offsetWidth);
-        y=Math.random()*(area.offsetHeight-no.offsetHeight);
-    }while(Math.abs(x-yes.offsetLeft)<80);
+    const x=Math.random()*(area.offsetWidth-no.offsetWidth);
+    const y=Math.random()*(area.offsetHeight-no.offsetHeight);
 
     no.style.left=x+"px";
     no.style.top=y+"px";
 }
 
 function showResult(){
-    const question=document.getElementById("question");
-    const result=document.getElementById("result");
-    const loveSong=document.getElementById("loveSong");
-    const loveVideo=document.getElementById("loveVideo");
-    const slider=document.getElementById("slider");
-
     question.style.display="none";
     result.style.display="block";
     loveSong.play();
@@ -223,24 +229,21 @@ function showResult(){
         slider.style.display="flex";
 
         const slides=document.querySelectorAll(".photo-frame");
-        slides.forEach((f,i)=>setTimeout(()=>f.classList.add("show"),i*500));
+        slides.forEach((f,i)=>setTimeout(()=>f.classList.add("show"),i*400));
 
         let i=0;
         const slideInterval=setInterval(()=>{
             i++;
-            if(i >= slides.length){
+            if(i>=slides.length){
                 clearInterval(slideInterval);
-
                 setTimeout(()=>{
                     slider.style.display="none";
-                    const endVideo=document.getElementById("endVideo");
                     endVideo.style.display="block";
                     endVideo.play();
                 },800);
-
                 return;
             }
-            slider.style.transform=`translateX(-${i*430}px)`;
+            slider.style.transform=`translateX(-${i*(slides[0].offsetWidth+12)}px)`;
         },2000);
     };
 }
@@ -258,10 +261,4 @@ setInterval(()=>{
 </script>
 
 </body>
-
 </html>
-
-
-
-
-
